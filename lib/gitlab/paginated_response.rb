@@ -107,7 +107,8 @@ module Gitlab
     def next_page
       return nil if @client.nil? || !has_next_page?
 
-      path = @links.next.sub(/#{@client.endpoint}/, '')
+      endpoint_http = client.endpoint.sub(/^https/, 'http')
+      path = @links.next.sub(/#{@client.endpoint}/, '').sub(/#{endpoint_http}/, '')
       @client.get(path)
     end
 
