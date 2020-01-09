@@ -13,6 +13,7 @@ class Gitlab::Client
     # @param  [Hash] options A customizable set of options.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def user_merge_requests(options = {})
+      puts "Debug alex Gitlab - user_merge_requests - get - options = #{options or 'nil'}"
       get('/merge_requests', query: options)
     end
 
@@ -28,6 +29,7 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def merge_requests(project, options = {})
+      puts "Debug alex Gitlab - merge_requests - get - project = #{project or 'nil'} - options = #{options or 'nil'}"
       get("/projects/#{url_encode project}/merge_requests", query: options)
     end
 
@@ -40,6 +42,7 @@ class Gitlab::Client
     # @param  [Integer] id The ID of a merge request.
     # @return <Gitlab::ObjectifiedHash]
     def merge_request(project, id)
+      puts "Debug alex Gitlab - merge_request - get - project = #{project or 'nil'} - id = #{id or 'nil'}"
       get("/projects/#{url_encode project}/merge_requests/#{id}")
     end
 
@@ -52,6 +55,7 @@ class Gitlab::Client
     # @param  [Integer] id The ID of a merge request.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def merge_request_pipelines(project, id)
+      puts "Debug alex Gitlab - merge_request_pipelines - get - project = #{project or 'nil'} - id = #{id or 'nil'}"
       get("/projects/#{url_encode project}/merge_requests/#{id}/pipelines")
     end
 
@@ -64,6 +68,7 @@ class Gitlab::Client
     # @param  [Integer] id The ID of a merge request.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def merge_request_participants(project, id)
+      puts "Debug alex Gitlab - merge_request_participants - get - project = #{project or 'nil'} - id = #{id or 'nil'}"
       get("/projects/#{url_encode project}/merge_requests/#{id}/participants")
     end
 
@@ -85,6 +90,7 @@ class Gitlab::Client
     # @option options [String] :labels (optional) Labels as a comma-separated list.
     # @return [Gitlab::ObjectifiedHash] Information about created merge request.
     def create_merge_request(project, title, options = {})
+      puts "Debug alex Gitlab - create_merge_request - post - project_id = #{project_id or 'nil'} - title = #{title or 'nil'} - options = #{options or 'nil'}"
       body = { title: title }.merge(options)
       post("/projects/#{url_encode project}/merge_requests", body: body)
     end
@@ -104,6 +110,7 @@ class Gitlab::Client
     # @option options [String] :state_event New state (close|reopen|merge).
     # @return [Gitlab::ObjectifiedHash] Information about updated merge request.
     def update_merge_request(project, id, options = {})
+      puts "Debug alex Gitlab - update_merge_request - put - project_id = #{project_id or 'nil'} - id = #{id or 'nil'} - options = #{options or 'nil'}"
       put("/projects/#{url_encode project}/merge_requests/#{id}", body: options)
     end
 
@@ -118,6 +125,7 @@ class Gitlab::Client
     # @option options [String] :merge_commit_message Custom merge commit message
     # @return [Gitlab::ObjectifiedHash] Information about updated merge request.
     def accept_merge_request(project, id, options = {})
+      puts "Debug alex Gitlab - accept_merge_request - put - project_id = #{project_id or 'nil'} - id = #{id or 'nil'} - options = #{options or 'nil'}"
       put("/projects/#{url_encode project}/merge_requests/#{id}/merge", body: options)
     end
 
@@ -130,6 +138,7 @@ class Gitlab::Client
     # @param  [Integer] id The ID of a merge request.
     # @return [Gitlab::ObjectifiedHash] The merge request's changes.
     def merge_request_changes(project, id)
+      puts "Debug alex Gitlab - merge_request_changes - get - project_id = #{project_id or 'nil'} - id = #{id or 'nil'}"
       get("/projects/#{url_encode project}/merge_requests/#{id}/changes")
     end
 
@@ -142,6 +151,7 @@ class Gitlab::Client
     # @param  [Integer] id The ID of a merge request.
     # @return [Array<Gitlab::ObjectifiedHash>] The merge request's commits.
     def merge_request_commits(project, id)
+      puts "Debug alex Gitlab - merge_request_commits - get - project_id = #{project_id or 'nil'} - id = #{id or 'nil'}"
       get("/projects/#{url_encode project}/merge_requests/#{id}/commits")
     end
 
@@ -153,6 +163,7 @@ class Gitlab::Client
     # @param [Integer] project The ID of a project
     # @param [Integer] iid The internal ID of a merge request
     def merge_request_closes_issues(project_id, merge_request_iid)
+      puts "Debug alex Gitlab - merge_request_closes_issues - get - project_id = #{project_id or 'nil'} - merge_request_iid = #{merge_request_iid or 'nil'}"
       get("/projects/#{project_id}/merge_requests/#{merge_request_iid}/closes_issues")
     end
 
@@ -166,6 +177,7 @@ class Gitlab::Client
     # @param  [Integer] id The ID of a merge request.
     # @return [Gitlab::ObjectifiedHash] Information about subscribed merge request.
     def subscribe_to_merge_request(project, id)
+      puts "Debug alex Gitlab - subscribe_to_merge_request - post - project = #{project or 'nil'} - id = #{id or 'nil'}"
       post("/projects/#{url_encode project}/merge_requests/#{id}/subscribe")
     end
 
@@ -179,6 +191,7 @@ class Gitlab::Client
     # @param  [Integer] id The ID of a merge request.
     # @return [Gitlab::ObjectifiedHash] Information about unsubscribed merge request.
     def unsubscribe_from_merge_request(project, id)
+      puts "Debug alex Gitlab - unsubscribe_from_merge_request - post - project = #{project or 'nil'} - id = #{id or 'nil'}"
       post("/projects/#{url_encode project}/merge_requests/#{id}/unsubscribe")
     end
 
@@ -191,6 +204,7 @@ class Gitlab::Client
     # @param  [Integer] id The ID of a merge request.
     # @return [Gitlab::ObjectifiedHash] List of the merge request discussions.
     def merge_request_discussions(project, merge_request_id)
+      puts "Debug alex Gitlab - merge_request_discussions - get - project = #{project or 'nil'} - merge_request_id = #{merge_request_id or 'nil'}"
       get("/projects/#{url_encode project}/merge_requests/#{merge_request_id}/discussions")
     end
 
@@ -204,6 +218,7 @@ class Gitlab::Client
     # @param  [Integer] discussion_id The ID of a discussion.
     # @return [Gitlab::ObjectifiedHash] The merge request discussion.
     def merge_request_discussion(project, merge_request_id, discussion_id)
+      puts "Debug alex Gitlab - merge_request_discussion - get - project = #{project or 'nil'} - merge_request_id = #{merge_request_id or 'nil'} - discussion_id = #{discussion_id or 'nil'}"
       get("/projects/#{url_encode project}/merge_requests/#{merge_request_id}/discussions/#{discussion_id}")
     end
 
@@ -232,6 +247,7 @@ class Gitlab::Client
     #     * :y (Integer) Y coordinate (for 'image' diff notes)
     # @return [Gitlab::ObjectifiedHash] The created merge request discussion.
     def create_merge_request_discussion(project, merge_request_id, options = {})
+      puts "Debug alex Gitlab - create_merge_request_discussion - post - project = #{project or 'nil'} - merge_request_id = #{merge_request_id or 'nil'} - options = #{options or 'nil'}"
       post("/projects/#{url_encode project}/merge_requests/#{merge_request_id}/discussions", body: options)
     end
 
@@ -247,6 +263,7 @@ class Gitlab::Client
     # @option options [Boolean] :resolved Resolve/unresolve the discussion.
     # @return [Gitlab::ObjectifiedHash] The merge request discussion.
     def resolve_merge_request_discussion(project, merge_request_id, discussion_id, options)
+      puts "Debug alex Gitlab - resolve_merge_request_discussion - put - project = #{project or 'nil'} - merge_request_id = #{merge_request_id or 'nil'} - discussion_id = #{discussion_id or 'nil'} - options = #{options or 'nil'}"
       put("/projects/#{url_encode project}/merge_requests/#{merge_request_id}/discussions/#{discussion_id}", body: options)
     end
 
@@ -264,6 +281,7 @@ class Gitlab::Client
     # @option options [String] :created_at Date time string, ISO 8601 formatted, e.g. 2016-03-11T03:45:40Z.
     # @return [Gitlab::ObjectifiedHash] The merge request discussion note.
     def create_merge_request_discussion_note(project, merge_request_id, discussion_id, options)
+      puts "Debug alex Gitlab - create_merge_request_discussion_note - post - project = #{project or 'nil'} - merge_request_id = #{merge_request_id or 'nil'} - discussion_id = #{discussion_id or 'nil'} - options = #{options or 'nil'}"
       post("/projects/#{url_encode project}/merge_requests/#{merge_request_id}/discussions/#{discussion_id}/notes", body: options)
     end
 
@@ -281,6 +299,7 @@ class Gitlab::Client
     # @option options [Boolean] :resolved Resolve/unresolve the note.
     # @return [Gitlab::ObjectifiedHash] The merge request discussion note.
     def update_merge_request_discussion_note(project, merge_request_id, discussion_id, note_id, options)
+      puts "Debug alex Gitlab - update_merge_request_discussion_note - put - project = #{project or 'nil'} - merge_request_id = #{merge_request_id or 'nil'} - discussion_id = #{discussion_id or 'nil'} - options = #{options or 'nil'}"
       put("/projects/#{url_encode project}/merge_requests/#{merge_request_id}/discussions/#{discussion_id}/notes/#{note_id}", body: options)
     end
 
@@ -295,6 +314,7 @@ class Gitlab::Client
     # @param  [Integer] note_id The ID of a discussion note.
     # @return [Gitlab::ObjectifiedHash] An empty response.
     def delete_merge_request_discussion_note(project, merge_request_id, discussion_id, note_id)
+      puts "Debug alex Gitlab - delete_merge_request_discussion_note - delete - project = #{project or 'nil'} - merge_request_id = #{merge_request_id or 'nil'} - discussion_id = #{discussion_id or 'nil'} - note_id = #{note_id or 'nil'}"
       delete("/projects/#{url_encode project}/merge_requests/#{merge_request_id}/discussions/#{discussion_id}/notes/#{note_id}")
     end
 
@@ -307,6 +327,7 @@ class Gitlab::Client
     # @param  [Integer] id The ID of a merge request.
     # @return [Gitlab::ObjectifiedHash] A list of the merge request versions.
     def merge_request_diff_versions(project, merge_request_id)
+      puts "Debug alex Gitlab - merge_request_diff_versions - get - project = #{project or 'nil'} - merge_request_id = #{merge_request_id or 'nil'}"
       get("/projects/#{url_encode project}/merge_requests/#{merge_request_id}/versions")
     end
 
@@ -320,6 +341,7 @@ class Gitlab::Client
     # @param  [Integer] id The ID of a merge request diff version.
     # @return [Gitlab::ObjectifiedHash] Record of the specific diff
     def merge_request_diff_version(project, merge_request_id, version_id)
+      puts "Debug alex Gitlab - merge_request_diff_version - get - project = #{project or 'nil'} - merge_request_id = #{merge_request_id or 'nil'} - version_id = #{version_id or 'nil'}"
       get("/projects/#{url_encode project}/merge_requests/#{merge_request_id}/versions/#{version_id}")
     end
   end

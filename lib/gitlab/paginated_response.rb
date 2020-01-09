@@ -105,10 +105,17 @@ module Gitlab
     alias has_next_page? next_page?
 
     def next_page
+      puts "Debug alex Gitlab - next_page"
+        
       return nil if @client.nil? || !has_next_page?
-
+      puts "Debug alex Gitlab - next_page - client.endpoint = #{@client.endpoint or 'nil'}"
+      puts "Debug alex Gitlab - next_page - links.next = #{@links.next or 'nil'}"
+      
       endpoint_http = client.endpoint.sub(/^https/, 'http')
+      puts "Debug alex Gitlab - next_page - endpoint_http = #{endpoint_http or 'nil'}"
+      
       path = @links.next.sub(/#{@client.endpoint}/, '').sub(/#{endpoint_http}/, '')
+      puts "Debug alex Gitlab - next_page - path = #{path or 'nil'}"
       @client.get(path)
     end
 

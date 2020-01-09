@@ -15,32 +15,45 @@ module Gitlab
 
     # Converts the response body to an ObjectifiedHash.
     def self.parse(body)
+      puts "Debug alex Gitlab - parse"
       body = decode(body)
+      puts "Debug alex Gitlab - parse - body = #{body or 'nil'}"
 
       if body.is_a? Hash
+        puts "Debug alex Gitlab - parse - body.is_a? Hash"
         ObjectifiedHash.new body
       elsif body.is_a? Array
+        puts "Debug alex Gitlab - parse - body.is_a? Array"
         PaginatedResponse.new(body.collect! { |e| ObjectifiedHash.new(e) })
       elsif body
+        puts "Debug alex Gitlab - parse - body"
         true
       elsif !body
+        puts "Debug alex Gitlab - parse - !body"
         false
       elsif body.nil?
+        puts "Debug alex Gitlab - parse - body.nil?"
         false
       else
+        puts "Debug alex Gitlab - parse - Error::Parsing, Couldn't parse a response body"
         raise Error::Parsing, "Couldn't parse a response body"
       end
     end
 
     # Decodes a JSON response into Ruby object.
     def self.decode(response)
+      puts "Debug alex Gitlab - decode - response = #{response or 'nil'}"
       response ? JSON.load(response) : {}
     rescue JSON::ParserError
+      puts "Debug alex Gitlab - decode - error"
       raise Error::Parsing, 'The response is not a valid JSON'
     end
 
     %w[get post put delete].each do |method|
       define_method method do |path, options = {}|
+        puts "Debug alex Gitlab - [get post put delete].each - method = #{method or 'nil'}  - path = #{path or 'nil'} - options = #{options or 'nil'}"
+        puts caller[0]
+
         httparty_config(options)
 
         unless options[:unauthenticated]
@@ -48,6 +61,7 @@ module Gitlab
           options[:headers].merge!(authorization_header)
         end
 
+        puts "Debug alex Gitlab - [get post put delete].each - method = #{method or 'nil'}  - endpoint = #{@endpoint or 'nil'} - path = #{path or 'nil'} - options = #{options or 'nil'}"
         validate self.class.send(method, @endpoint + path, options)
       end
     end
@@ -55,6 +69,8 @@ module Gitlab
     # Checks the response code for common errors.
     # Returns parsed response for successful requests.
     def validate(response)
+      puts "Debug alex Gitlab - validate - response = #{response or 'nil'}"
+        
       error_klass = Error::STATUS_MAPPINGS[response.code]
       raise error_klass, response if error_klass
 
@@ -91,6 +107,7 @@ module Gitlab
     # Set HTTParty configuration
     # @see https://github.com/jnunemaker/httparty
     def httparty_config(options)
+      puts "Debug alex Gitlab - httparty_config - httparty = #{httparty or 'nil'}  - options = #{options or 'nil'}"
       options.merge!(httparty) if httparty
     end
   end
